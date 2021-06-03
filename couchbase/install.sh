@@ -17,8 +17,8 @@ if   [ -e /etc/debian_version ] ||
   fi
 elif [ -e /etc/arch-release ]; then
   # Arch Linux
-  yes Y | sudo pacman -Syu
-  yes Y | sudo pacman -S core/make core/autoconf core/gcc
+  echo "Not supported"
+  exit 1
 else
   echo "Not supported"
   exit 1

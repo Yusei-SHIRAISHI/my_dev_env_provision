@@ -1,5 +1,7 @@
 #! /bin/bash
 
+set -eu
+
 if   [ -e /etc/debian_version ] ||
      [ -e /etc/debian_release ]; then
   # Check Ubuntu or Debian
@@ -43,6 +45,12 @@ rm -rf ${SRC_DIR} ${TAR_GZ}
 
 sudo sh -c "echo \"$(which zsh)\" >> /etc/shells"
 sudo chsh -s $(which zsh) $(whoami)
+
+if [ -e ~/.myDotfiles ]; then
+  git clone https://github.com/yusei-shiraishi/myDotfiles.git ~/.my_dotfiles
+fi
+ln -s ./.my_dotfiles/.zshrc ./
+ln -s ./.my_dotfiles/.zsh ./
 
 echo "complete!!"
 exit 0
