@@ -4,9 +4,9 @@ set -eu
 
 IPATH=~/.rbenv
 
-git clone https://github.com/rbenv/rbenv.git $IPATH
-mkdir -p $IPATH/plugins
-git clone https://github.com/rbenv/ruby-build.git $IPATH/plugins/ruby-build
+git clone https://github.com/rbenv/rbenv.git ${IPATH}
+mkdir -p ${IPATH}/plugins
+git clone https://github.com/rbenv/ruby-build.git ${IPATH}/plugins/ruby-build
 
 echo "complete!!"
 
