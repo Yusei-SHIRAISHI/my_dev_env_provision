@@ -48,8 +48,8 @@ sudo chsh -s $(which zsh) $(whoami)
 if [ -e ~/.myDotfiles ]; then
   git clone https://github.com/yusei-shiraishi/my_dotfiles.git ~/.my_dotfiles
 fi
-mkdir ~/.my_dotfiles/.zshrc
-ln -sfn ~/.my_dotfiles/.zsh.d ~/
+mkdir ~/.zsh.d
+ln -sfn ~/.my_dotfiles/.zshrc ~/
 
 echo "complete!!"
 exit 0
