@@ -41,13 +41,13 @@ fi
 if [ -e ~/.myDotfiles ]; then
   git clone https://github.com/yusei-shiraishi/myDotfiles.git ~/.my_dotfiles
 fi
-ln -s ./.my_dotfiles/.vimrc ./
+ln -s ~/.my_dotfiles/.vimrc ~/
 mkdir -p ~/.cache/tmp
 
 # vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-vim -c PlugInstall
+vim +'PlugInstall --sync' +qa
 
 echo "complete!!"
 vim --version
