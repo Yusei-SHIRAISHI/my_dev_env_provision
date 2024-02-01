@@ -8,8 +8,8 @@ if   [ -e /etc/debian_version ] ||
   if [ -e /etc/lsb-release ]; then
     # Ubuntu
     sudo apt update
-    sudo apt upgrade
-    sudo apt install vim
+    sudo apt upgrade -y
+    sudo apt install -y vim
     #yes Y | sudo apt install build-essential libcurl6-gnutls-dev libexpat1-dev gettext libz-dev libssl-dev
   else
     # Debian
