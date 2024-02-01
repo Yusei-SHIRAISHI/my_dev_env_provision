@@ -39,7 +39,7 @@ fi
 #popd
 
 if [ -e ~/.myDotfiles ]; then
-  git clone https://github.com/yusei-shiraishi/myDotfiles.git ~/.my_dotfiles
+  git clone https://github.com/yusei-shiraishi/my_dotfiles.git ~/.my_dotfiles
 fi
 ln -sfn ~/.my_dotfiles/.vimrc ~/
 mkdir -p ~/.cache/tmp
