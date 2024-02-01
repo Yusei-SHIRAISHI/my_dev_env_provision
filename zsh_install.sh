@@ -7,11 +7,9 @@ if   [ -e /etc/debian_version ] ||
   # Check Ubuntu or Debian
   if [ -e /etc/lsb-release ]; then
     # Ubuntu
-    echo "Not supported"
-    exit 1
-    # sudo apt update
-    # sudo apt upgrade
-    # sudo apt install build-essential
+    sudo apt update
+    sudo apt upgrade -y
+    sudo apt install -y zsh
   else
     # Debian
     echo "Not supported"
@@ -26,22 +24,23 @@ else
   exit 1
 fi
 
-VERSION=5.8
-SRC_DIR=zsh-${VERSION}
-TAR_XZ=${SRC_DIR}.tar.xz
-
-curl -L -o ${TAR_XZ} https://sourceforge.net/projects/zsh/files/zsh/${VERSION}/zsh-${VERSION}.tar.xz/download
-tar -Jxvf ${TAR_XZ}
-
-pushd ${SRC_DIR}
-
-./configure
-make
-sudo make install
-
-popd
-
-rm -rf ${SRC_DIR} ${TAR_GZ}
+## Custom Install
+#VERSION=5.8
+#SRC_DIR=zsh-${VERSION}
+#TAR_XZ=${SRC_DIR}.tar.xz
+#
+#curl -L -o ${TAR_XZ} https://sourceforge.net/projects/zsh/files/zsh/${VERSION}/zsh-${VERSION}.tar.xz/download
+#tar -Jxvf ${TAR_XZ}
+#
+#pushd ${SRC_DIR}
+#
+#./configure
+#make
+#sudo make install
+#
+#popd
+#
+#rm -rf ${SRC_DIR} ${TAR_GZ}
 
 sudo sh -c "echo \"$(which zsh)\" >> /etc/shells"
 sudo chsh -s $(which zsh) $(whoami)
@@ -49,8 +48,8 @@ sudo chsh -s $(which zsh) $(whoami)
 if [ -e ~/.myDotfiles ]; then
   git clone https://github.com/yusei-shiraishi/myDotfiles.git ~/.my_dotfiles
 fi
-ln -s ./.my_dotfiles/.zshrc ./
-ln -s ./.my_dotfiles/.zsh ./
+ln -sfn ~/.my_dotfiles/.zshrc ~/
+ln -sfn ~/.my_dotfiles/.zsh.d ~/
 
 echo "complete!!"
 exit 0
