@@ -9,7 +9,8 @@ if   [ -e /etc/debian_version ] ||
     # Ubuntu
     sudo apt update
     sudo apt upgrade
-    yes Y | sudo apt install build-essential libcurl4-gnutls-dev libexpat1-dev gettext libz-dev libssl-dev
+    sudo apt install vim
+    #yes Y | sudo apt install build-essential libcurl6-gnutls-dev libexpat1-dev gettext libz-dev libssl-dev
   else
     # Debian
     echo "Not supported"
@@ -24,29 +25,29 @@ else
   exit 1
 fi
 
-DIR=vim
-
-git clone https://github.com/vim/vim.git
-
-pushd ${DIR}
-
-./configure --with-features=normal --without-x --enable-gui=auto --disable-smack --disable-selinux --disable-netbeans --disable-arabic --disable-farsi --enable-terminal --enable-multibyte --enable-fontset --disable-canberra --disable-gpm --disable-sysmouse
-make
-sudo make install
-
-popd
+## Custom Build
+#DIR=vim
+#
+#git clone https://github.com/vim/vim.git
+#
+#pushd ${DIR}
+#
+#./configure --with-features=normal --without-x --enable-gui=auto --disable-smack --disable-selinux --disable-netbeans --disable-arabic --disable-farsi --enable-terminal --enable-multibyte --enable-fontset --disable-canberra --disable-gpm --disable-sysmouse
+#make
+#sudo make install
+#
+#popd
 
 if [ -e ~/.myDotfiles ]; then
   git clone https://github.com/yusei-shiraishi/myDotfiles.git ~/.my_dotfiles
 fi
 ln -s ./.my_dotfiles/.vimrc ./
+mkdir -p ~/.cache/tmp
 
 # vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 vim -c PlugInstall
-
-rm -rf ${DIR}
 
 echo "complete!!"
 vim --version
