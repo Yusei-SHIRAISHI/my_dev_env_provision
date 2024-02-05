@@ -31,8 +31,8 @@ else
   exit 1
 fi
 
-sudo groupadd docker
 sudo gpasswd -a $USER docker
-sudo systemctl restart docker
+
+echo "pls restart docker and restart shell."
 
 exit 0
