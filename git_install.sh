@@ -42,8 +42,8 @@ popd
 
 rm -rf ${SRC_DIR} ${TAR_GZ}
 
-if [ -e ~/.myDotfiles ]; then
-  git clone https://github.com/yusei-shiraishi/myDotfiles.git ~/.my_dotfiles
+if [ -e ~/.my_dotfiles ]; then
+  git clone https://github.com/yusei-shiraishi/my_dotfiles.git
 fi
 ln -s ./.my_dotfiles/.gitconfig ./
 

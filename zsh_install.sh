@@ -45,10 +45,10 @@ fi
 sudo sh -c "echo \"$(which zsh)\" >> /etc/shells"
 sudo chsh -s $(which zsh) $(whoami)
 
-if [ -e ~/.myDotfiles ]; then
-  git clone https://github.com/yusei-shiraishi/my_dotfiles.git ~/.my_dotfiles
+if [ -e ~/.my_dotfiles ]; then
+  git clone https://github.com/yusei-shiraishi/my_dotfiles.git
 fi
-mkdir ~/.zsh.d
+mkdir -p ~/.zsh.d
 ln -sfn ~/.my_dotfiles/.zshrc ~/
 
 echo "complete!!"
