@@ -24,18 +24,18 @@ else
   exit 1
 fi
 
-if [ -e ~/.my_dotfiles ]; then
+if [ ! -e ~/.my_dotfiles ]; then
   git clone https://github.com/yusei-shiraishi/my_dotfiles.git ~/.my_dotfiles
 fi
 
-mkdir -p ~/.config/nvim
-ln -sfn ~/.my_dotfiles/.vimrc ~/.config/nvim/init.vim
-mkdir -p ~/.cache/tmp
-
-# vim-plug
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-vim +'PlugInstall --sync' +qa
+#mkdir -p ~/.config/nvim
+#ln -sfn ~/.my_dotfiles/.vimrc ~/.config/nvim/init.vim
+#mkdir -p ~/.cache/tmp
+#
+## vim-plug
+#sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+#       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+#vim +'PlugInstall --sync' +qa
 
 echo "complete!!"
 vim --version
