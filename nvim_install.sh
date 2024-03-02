@@ -37,6 +37,13 @@ fi
 #       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 #vim +'PlugInstall --sync' +qa
 
+if [ -e ~/.zsh.d ]; then
+  echo 'export PATH=$PATH:/opt/nvim-linux64/bin' > ~/.zsh.d/nvim
+  echo 'alias vim="nvim"' >> ~/.zsh.d/alias
+fi
+
+rm ./nvim-linux64*
+
 echo "complete!!"
 vim --version
 
