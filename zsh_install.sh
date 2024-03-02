@@ -45,8 +45,8 @@ fi
 sudo sh -c "echo \"$(which zsh)\" >> /etc/shells"
 sudo chsh -s $(which zsh) $(whoami)
 
-if [ -e ~/.my_dotfiles ]; then
-  git clone https://github.com/yusei-shiraishi/my_dotfiles.git
+if [ ! -e ~/.my_dotfiles ]; then
+  git clone https://github.com/yusei-shiraishi/my_dotfiles.git ~/.my_dotfiles
 fi
 mkdir -p ~/.zsh.d
 ln -sfn ~/.my_dotfiles/.zshrc ~/
