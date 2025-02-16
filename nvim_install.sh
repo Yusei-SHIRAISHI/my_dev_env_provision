@@ -7,9 +7,9 @@ if   [ -e /etc/debian_version ] ||
   # Check Ubuntu or Debian
   if [ -e /etc/lsb-release ]; then
     # Ubuntu
-    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
     sudo rm -rf /opt/nvim
-    sudo tar -C /opt -xzf nvim-linux64.tar.gz
+    sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
   else
     # Debian
     echo "Not supported"
@@ -38,7 +38,7 @@ fi
 #vim +'PlugInstall --sync' +qa
 
 if [ -e ~/.zsh.d ]; then
-  echo 'export PATH=$PATH:/opt/nvim-linux64/bin' > ~/.zsh.d/nvim
+  echo 'export PATH=$PATH:/opt/nvim-linux-x86_64/bin' > ~/.zsh.d/nvim
   echo 'alias vim="nvim"' >> ~/.zsh.d/alias
 fi
 
