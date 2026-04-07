@@ -1,0 +1,70 @@
+BASE_PACKAGES=(
+  ca-certificates
+  curl
+  dnsutils
+  direnv
+  flatpak
+  fzf
+  gh
+  git
+  jq
+  lsof
+  netcat-openbsd
+  openssh-client
+  openssh-server
+  ripgrep
+  rsync
+  tig
+  tmux
+  traceroute
+  unzip
+  wget
+  zsh
+)
+
+EDITOR_PACKAGES=(
+  vim
+  neovim
+)
+
+MISE_PREREQ_PACKAGES=(
+  build-essential
+  libffi-dev
+  make
+  libssl-dev
+  libyaml-dev
+  zlib1g-dev
+)
+
+STRIPE_BUILD_PACKAGES=(
+  golang-go
+)
+
+SYNCTHING_PACKAGES=(
+  syncthing
+)
+
+TAILSCALE_PREREQ_PACKAGES=(
+  ca-certificates
+  curl
+  gnupg
+)
+
+TAILSCALE_PACKAGES=(
+  tailscale
+)
+
+DOCKER_PREREQ_PACKAGES=(
+  ca-certificates
+  curl
+  gnupg
+  lsb-release
+)
+
+DOCKER_PACKAGES=(
+  docker-ce
+  docker-ce-cli
+  containerd.io
+  docker-buildx-plugin
+  docker-compose-plugin
+)
