@@ -40,3 +40,4 @@ optional feature branch の integration test:
 - test では `SETUP_SKIP_FULL_UPGRADE=true` と `PACKAGE_SKIP_REFRESH=true` を使って重複処理を減らします
 - `run-optional-feature-tests.sh` は Ubuntu コンテナで `tailscale`, `syncthing`, `Obsidian`, `Bitwarden`, `opencode`, `tgcli`, `ngrok`, `stripe`, `bw` wrapper まで検証します
 - `stripe` は native binary として source build しており、optional suite では `stripe version` まで検証します
+- `.github/workflows/monthly-latest-image-tests.yml` で月次の latest-image test を実行します

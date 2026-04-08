@@ -1,0 +1,24 @@
+name: Monthly Latest Image Tests
+
+on:
+  schedule:
+    - cron: '0 3 1 * *'
+  workflow_dispatch:
+
+jobs:
+  integration-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show Docker info
+        run: docker info
+
+      - name: Run smoke suite
+        run: ./tests/run-bootstrap-tests.sh
+
+      - name: Run optional suite
+        run: ./tests/run-optional-feature-tests.sh

@@ -50,6 +50,8 @@ DOTFILES_REPO="yusei-shiraishi/my_dotfiles" ./install.sh
 
 integration test は `tests/run-bootstrap-tests.sh` と `tests/run-optional-feature-tests.sh` から実行できます。
 
+月次の latest-image test は `.github/workflows/monthly-latest-image-tests.yml` で実行します。
+
 `DOTFILES_REPO` を省略した場合は `config/defaults.env` の `DEFAULT_DOTFILES_REPO` を参照します。
 
 ## Role Order
