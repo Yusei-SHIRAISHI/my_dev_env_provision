@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 require_sudo() {
-  sudo -v
+  sudo -n true 2>/dev/null || sudo -v
 }
 
 ensure_non_root_invocation() {
   if [[ "$(id -u)" -eq 0 ]]; then
-    die "Run bootstrap as your regular user, not via root or sudo."
+    die "Run install.sh as your regular user, not via root or sudo."
   fi
 }
 

@@ -49,6 +49,7 @@ install_tailscale() {
 
   if [[ "$DISTRO" == "ubuntu" ]]; then
     configure_ubuntu_tailscale_repo
+    pkg_refresh force
   fi
 
   install_package_group TAILSCALE_PACKAGES

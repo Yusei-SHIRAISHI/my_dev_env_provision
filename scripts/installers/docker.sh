@@ -52,6 +52,7 @@ install_docker() {
 
   if [[ "$DISTRO" == "ubuntu" ]]; then
     configure_ubuntu_docker_repo
+    pkg_refresh force
   fi
 
   install_package_group DOCKER_PACKAGES

@@ -24,7 +24,8 @@ Ubuntu / Arch Linux 向けの開発マシン初期セットアップ repo です
 
 ```text
 .
-├── bootstrap.sh
+├── setup.sh
+├── install.sh
 ├── config/
 ├── docs/
 ├── assets/
@@ -36,10 +37,16 @@ Ubuntu / Arch Linux 向けの開発マシン初期セットアップ repo です
 ## Quick Start
 
 ```bash
-DOTFILES_REPO="yusei-shiraishi/my_dotfiles" ./bootstrap.sh
+sudo ./setup.sh --user yusei
+su - yusei
+git clone <repo-url> ~/my_dev_env_provision
+cd ~/my_dev_env_provision
+DOTFILES_REPO="yusei-shiraishi/my_dotfiles" ./install.sh
 ```
 
-`bootstrap.sh` は root ではなく通常ユーザーで実行してください。権限昇格が必要な箇所だけ内部で `sudo` を使います。
+`setup.sh` は root で実行します。ユーザー作成、sudo 設定、最低限の package 導入までを担当します。
+
+`install.sh` は root ではなく通常ユーザーで実行してください。権限昇格が必要な箇所だけ内部で `sudo` を使います。
 
 integration test は `tests/run-bootstrap-tests.sh` と `tests/run-optional-feature-tests.sh` から実行できます。
 
@@ -60,7 +67,7 @@ integration test は `tests/run-bootstrap-tests.sh` と `tests/run-optional-feat
 
 `10_shell` は `scripts/installers/zsh_login_shell.sh` を使って login shell を `zsh` に設定します。
 
-`SETUP_ROLES=00_base,30_docker ./bootstrap.sh` のようにすると一部 role だけ実行できます。
+`SETUP_ROLES=00_base,30_docker ./install.sh` のようにすると一部 role だけ実行できます。
 
 `60_services` と `70_flatpak_apps` と `80_cli_tools` は `00_base` で base package が入っている前提です。
 
@@ -70,3 +77,4 @@ integration test は `tests/run-bootstrap-tests.sh` と `tests/run-optional-feat
 - Ubuntu の Docker は公式 Docker repository を使います
 - `chezmoi` repo はこの repo に統合せず、外部 repo を適用します
 - 旧トップレベルの install script 群は新しい role / installer 構成に置き換えました
+- `setup.sh` は root 実行、`install.sh` は通常ユーザー実行です

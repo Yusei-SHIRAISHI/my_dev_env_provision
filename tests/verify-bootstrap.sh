@@ -65,12 +65,15 @@ main() {
     assert_user_command "$cmd"
   done
 
+  getent passwd "$TEST_USER" >/dev/null
+  id -nG "$TEST_USER" | grep -Eq '(^| )(sudo|wheel)( |$)'
   assert_user_shell "$(command -v zsh)"
   test -f "$USER_HOME/.bootstrap-test-marker"
   test -f /etc/docker/daemon.json
   assert_service_active docker
   assert_ssh_service_active
   getent group docker | grep -qw "$TEST_USER"
+  su - "$TEST_USER" -c "sudo -n true"
   su - "$TEST_USER" -c "PATH='$USER_PATH' docker info >/dev/null"
   su - "$TEST_USER" -c "PATH='$USER_PATH' chezmoi --version >/dev/null"
   su - "$TEST_USER" -c "PATH='$USER_PATH' flatpak remote-list --user | grep -q '^flathub'"

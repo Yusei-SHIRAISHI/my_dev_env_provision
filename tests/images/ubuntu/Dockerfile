@@ -9,7 +9,6 @@ RUN apt-get update \
       ca-certificates \
       curl \
       dbus \
-      git \
       iproute2 \
       kmod \
       procps \
@@ -18,10 +17,6 @@ RUN apt-get update \
       systemd-sysv \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-
-RUN useradd -m -s /bin/bash tester \
-    && printf 'tester ALL=(ALL) NOPASSWD:ALL\n' >/etc/sudoers.d/tester \
-    && chmod 0440 /etc/sudoers.d/tester
 
 STOPSIGNAL SIGRTMIN+3
 

@@ -20,6 +20,12 @@ reset_package_cache() {
 }
 
 pkg_refresh() {
+  local mode="${1:-normal}"
+
+  if [[ "$mode" != "force" && "${PACKAGE_SKIP_REFRESH:-false}" == "true" ]]; then
+    return 0
+  fi
+
   case "$DISTRO" in
     ubuntu)
       if [[ "$APT_UPDATED" -eq 0 ]]; then

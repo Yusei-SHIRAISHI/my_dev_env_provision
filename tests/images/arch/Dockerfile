@@ -8,7 +8,6 @@ RUN pacman -Syu --noconfirm \
       ca-certificates \
       curl \
       dbus \
-      git \
       iproute2 \
       kmod \
       procps-ng \
@@ -16,10 +15,6 @@ RUN pacman -Syu --noconfirm \
       sudo \
       systemd \
     && pacman -Scc --noconfirm
-
-RUN useradd -m -s /bin/bash tester \
-    && printf 'tester ALL=(ALL) NOPASSWD:ALL\n' >/etc/sudoers.d/tester \
-    && chmod 0440 /etc/sudoers.d/tester
 
 STOPSIGNAL SIGRTMIN+3
 

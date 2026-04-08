@@ -1,13 +1,14 @@
 # Integration Tests
 
-`bootstrap.sh` を Ubuntu / Arch のコンテナ上で実行し、主要な CLI と Docker daemon の動作を確認するための integration test です。
+`setup.sh` と `install.sh` を Ubuntu / Arch のコンテナ上で実行し、主要な CLI と Docker daemon の動作を確認するための integration test です。
 
 ## What It Does
 
 1. systemd を含む test image を build する
 2. privileged container を起動する
-3. test user で `./bootstrap.sh` を実行する
-4. `docker` service と主要 command を verify する
+3. root で `./setup.sh --user tester` を実行する
+4. test user で `./install.sh` を実行する
+5. `docker` service と主要 command を verify する
 
 ## Run
 
@@ -35,5 +36,7 @@ optional feature branch の integration test:
 - `/sys/fs/cgroup` を mount できる環境が必要です
 - repo は container 内へ read-only mount します
 - test では `tests/fixtures/dotfiles` から一時 git repo を作り、`chezmoi init --apply` も検証します
+- smoke suite は Ubuntu / Arch を並列に実行します
+- test では `SETUP_SKIP_FULL_UPGRADE=true` と `PACKAGE_SKIP_REFRESH=true` を使って重複処理を減らします
 - `run-optional-feature-tests.sh` は Ubuntu コンテナで `tailscale`, `syncthing`, `Obsidian`, `Bitwarden`, `opencode`, `tgcli`, `ngrok`, `stripe`, `bw` wrapper まで検証します
 - `stripe` は native binary として source build しており、optional suite では `stripe version` まで検証します

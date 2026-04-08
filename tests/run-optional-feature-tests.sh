@@ -104,6 +104,13 @@ main() {
   wait_for_systemd "$CONTAINER_NAME"
 
   docker exec \
+    -e SETUP_SKIP_PASSWORD_PROMPT=true \
+    -e SETUP_SUDO_NOPASSWD=true \
+    -e SETUP_SKIP_FULL_UPGRADE=true \
+    "$CONTAINER_NAME" \
+    bash -lc "cd /repo && ./setup.sh --user '$TEST_USER'"
+
+  docker exec \
     -u "$TEST_USER" \
     -e HOME="/home/$TEST_USER" \
     "$CONTAINER_NAME" \
@@ -114,6 +121,7 @@ main() {
     -e HOME="/home/$TEST_USER" \
     -e DOTFILES_REPO="$fixture_repo" \
     -e MISE_GLOBAL_TOOLS="" \
+    -e PACKAGE_SKIP_REFRESH=true \
     -e INSTALL_SYSTEM_SERVICES=true \
     -e ENABLE_SSH_SERVICE=true \
     -e INSTALL_SYNCTHING=true \
@@ -131,7 +139,7 @@ main() {
     -e INSTALL_BW_WRAPPER=true \
     -e PATH="/home/$TEST_USER/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
     "$CONTAINER_NAME" \
-    bash -lc 'cd /repo && ./bootstrap.sh'
+    bash -lc 'cd /repo && ./install.sh'
 
   docker exec "$CONTAINER_NAME" bash -lc "/repo/tests/verify-optional-features.sh '$TEST_USER' '$DISTRO'"
   cleanup_container "$CONTAINER_NAME"
