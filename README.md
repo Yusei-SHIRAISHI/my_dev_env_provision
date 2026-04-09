@@ -44,6 +44,12 @@ cd ~/my_dev_env_provision
 DOTFILES_REPO="yusei-shiraishi/my_dotfiles" ./install.sh
 ```
 
+`setup.sh` を GitHub raw から直接実行する場合は、`passwd` の対話入力を壊さないため `curl | sh` ではなく `bash -c` で実行してください。
+
+```bash
+sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/Yusei-SHIRAISHI/my_dev_env_provision/refs/heads/master/setup.sh)" -- --user shira
+```
+
 `setup.sh` は root で実行します。ユーザー作成、sudo 設定、最低限の package 導入までを担当します。
 
 `install.sh` は root ではなく通常ユーザーで実行してください。権限昇格が必要な箇所だけ内部で `sudo` を使います。
