@@ -17,6 +17,23 @@ source "$REPO_ROOT/scripts/lib/systemd.sh"
 # shellcheck source=/dev/null
 source "$REPO_ROOT/config/defaults.env"
 
+print_chezmoi_next_steps() {
+  local dotfiles_repo="$1"
+
+  if [[ -z "$dotfiles_repo" ]]; then
+    warn "Skipping chezmoi apply; set DOTFILES_REPO or DEFAULT_DOTFILES_REPO to enable it."
+    return 0
+  fi
+
+  info "Bitwarden login and chezmoi apply are left as a manual step."
+  printf '\nNext steps:\n'
+  printf '1. ~/.local/bin/bw login\n'
+  printf '2. ~/.local/bin/bw unlock\n'
+  printf '3. ~/.local/bin/chezmoi init --apply %q\n\n' "$dotfiles_repo"
+  printf 'To make ~/.local/bin available in future shells, add this to your shell config:\n'
+  printf 'export PATH="$HOME/.local/bin:$PATH"\n\n'
+}
+
 main() {
   ensure_non_root_invocation
   load_distro
@@ -54,7 +71,7 @@ main() {
   if [[ "${APPLY_CHEZMOI}" == "true" && -n "$dotfiles_repo" ]]; then
     "$REPO_ROOT/scripts/installers/chezmoi.sh" apply "$dotfiles_repo"
   else
-    warn "Skipping chezmoi apply; set DOTFILES_REPO or DEFAULT_DOTFILES_REPO to enable it."
+    print_chezmoi_next_steps "$dotfiles_repo"
   fi
 
   info "Bootstrap finished."

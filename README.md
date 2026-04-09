@@ -41,7 +41,10 @@ sudo ./setup.sh --user yusei
 su - yusei
 git clone <repo-url> ~/my_dev_env_provision
 cd ~/my_dev_env_provision
-DOTFILES_REPO="yusei-shiraishi/my_dotfiles" ./install.sh
+./install.sh
+~/.local/bin/bw login
+~/.local/bin/bw unlock
+~/.local/bin/chezmoi init --apply Yusei-SHIRAISHI/my_dotfiles
 ```
 
 `setup.sh` を GitHub raw から直接実行する場合は、`passwd` の対話入力を壊さないため `curl | sh` ではなく `bash -c` で実行してください。
@@ -54,11 +57,15 @@ sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/Yusei-SHIRAISHI/my_
 
 `install.sh` は root ではなく通常ユーザーで実行してください。権限昇格が必要な箇所だけ内部で `sudo` を使います。
 
+`install.sh` は `chezmoi` までは導入しますが、Bitwarden login が必要な dotfiles 適用は自動実行しません。完了時に `~/.local/bin/bw login` / `~/.local/bin/bw unlock` / `~/.local/bin/chezmoi init --apply Yusei-SHIRAISHI/my_dotfiles` を案内します。
+
+`~/.local/bin` を今後の shell でも使いたい場合は、dotfiles 適用後または一時的に `export PATH="$HOME/.local/bin:$PATH"` を shell 設定へ追加してください。現在の shell に反映されていない場合でも、上の絶対パスならそのまま実行できます。
+
 integration test は `tests/run-bootstrap-tests.sh` と `tests/run-optional-feature-tests.sh` から実行できます。
 
 月次の latest-image test は `.github/workflows/monthly-latest-image-tests.yml` で実行します。
 
-`DOTFILES_REPO` を省略した場合は `config/defaults.env` の `DEFAULT_DOTFILES_REPO` を参照します。
+`DOTFILES_REPO` を省略した場合は `config/defaults.env` の `DEFAULT_DOTFILES_REPO` を参照します。既定値は `Yusei-SHIRAISHI/my_dotfiles` です。
 
 ## Role Order
 
