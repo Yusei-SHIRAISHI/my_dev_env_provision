@@ -124,7 +124,7 @@ install_bw_wrapper() {
   cat >"$target" <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
-exec flatpak run --command=bw com.bitwarden.desktop "$@"
+exec flatpak run --user --command=bw com.bitwarden.desktop "$@"
 EOF
 
   chmod +x "$target"
