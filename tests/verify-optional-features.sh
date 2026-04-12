@@ -19,6 +19,18 @@ assert_user_command() {
   su - "$TEST_USER" -c "PATH='$USER_PATH' command -v '$command_name' >/dev/null"
 }
 
+assert_user_executable() {
+  local file_path="$1"
+
+  su - "$TEST_USER" -c "test -x '$file_path'"
+}
+
+assert_obsidian_installed() {
+  assert_user_executable "$USER_HOME/.local/bin/obsidian"
+  assert_user_executable "$USER_HOME/.local/lib/obsidian/Obsidian.AppImage"
+  su - "$TEST_USER" -c "PATH='$USER_PATH' obsidian --version >/dev/null"
+}
+
 main() {
   local root_commands=(syncthing tailscale)
   local user_commands=(bw ngrok opencode stripe tgcli)
@@ -39,7 +51,7 @@ main() {
     test -f /etc/apt/sources.list.d/tailscale.list
   fi
 
-  su - "$TEST_USER" -c "PATH='$USER_PATH' flatpak list --user --app --columns=application | grep -qx 'md.obsidian.Obsidian'"
+  assert_obsidian_installed
   su - "$TEST_USER" -c "PATH='$USER_PATH' flatpak list --user --app --columns=application | grep -qx 'com.bitwarden.desktop'"
   su - "$TEST_USER" -c "PATH='$USER_PATH' bw --version >/dev/null"
   su - "$TEST_USER" -c "PATH='$USER_PATH' ngrok version >/dev/null"

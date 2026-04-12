@@ -86,6 +86,8 @@ integration test は `tests/run-bootstrap-tests.sh` と `tests/run-optional-feat
 
 `60_services` と `70_flatpak_apps` と `80_cli_tools` は `00_base` で base package が入っている前提です。
 
+`70_flatpak_apps` は Obsidian を upstream の latest `AppImage` で導入し、Bitwarden は引き続き `flatpak` で導入します。
+
 ## Notes
 
 - Arch の AUR は使いません

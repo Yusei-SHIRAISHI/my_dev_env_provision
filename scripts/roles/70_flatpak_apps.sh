@@ -8,5 +8,6 @@ run_role_70_flatpak_apps() {
     return 0
   fi
 
+  "$repo_root/scripts/installers/obsidian.sh" install "$repo_root"
   "$repo_root/scripts/installers/flatpak_apps.sh" install "$repo_root"
 }

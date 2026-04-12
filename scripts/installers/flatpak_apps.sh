@@ -21,11 +21,6 @@ install_flatpak_apps() {
   require_command flatpak
   ensure_flathub_remote
 
-  if [[ "$INSTALL_OBSIDIAN" == "true" ]]; then
-    info "Installing Obsidian via flatpak"
-    flatpak install --user -y flathub md.obsidian.Obsidian
-  fi
-
   if [[ "$INSTALL_BITWARDEN_FLATPAK" == "true" ]]; then
     info "Installing Bitwarden via flatpak"
     flatpak install --user -y flathub com.bitwarden.desktop
