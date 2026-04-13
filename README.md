@@ -36,6 +36,8 @@ Ubuntu / Arch Linux 向けの開発マシン初期セットアップ repo です
 
 導入対象ツールのメモは `docs/required-tools.md` にまとめています。
 
+Obsidian の headless 起動と vault 登録手順は `docs/obsidian-headless.md` にまとめています。
+
 ## Quick Start
 
 ```bash
