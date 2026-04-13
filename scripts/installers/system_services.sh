@@ -60,11 +60,18 @@ install_tailscale() {
 }
 
 install_syncthing() {
+  local repo_root="$REPO_ROOT"
+
   if [[ "$INSTALL_SYNCTHING" != "true" ]]; then
     return 0
   fi
 
   install_package_group SYNCTHING_PACKAGES
+
+  install_root_file \
+    "$repo_root/assets/systemd/syncthing@.service.d/override.conf" \
+    "/etc/systemd/system/syncthing@.service.d/override.conf"
+  reload_systemd
 
   if [[ "$ENABLE_SYNCTHING_SERVICE" == "true" ]]; then
     enable_system_service syncthing@"$(id -un)"

@@ -46,6 +46,7 @@ main() {
 
   systemctl is-enabled "syncthing@${TEST_USER}" >/dev/null
   systemctl is-active "syncthing@${TEST_USER}" >/dev/null
+  systemctl cat "syncthing@${TEST_USER}" | grep -q 'Environment=STGUIADDRESS=0.0.0.0:8384'
 
   if [[ "$DISTRO" == "ubuntu" ]]; then
     test -f /etc/apt/sources.list.d/tailscale.list
