@@ -13,6 +13,8 @@ source "$REPO_ROOT/scripts/lib/distro.sh"
 # shellcheck source=/dev/null
 source "$REPO_ROOT/scripts/lib/packages.sh"
 # shellcheck source=/dev/null
+source "$REPO_ROOT/scripts/lib/systemd.sh"
+# shellcheck source=/dev/null
 source "$REPO_ROOT/config/defaults.env"
 
 install_release_binary() {
@@ -59,6 +61,20 @@ install_opencode() {
 
   info "Installing opencode"
   install_release_binary "https://github.com/anomalyco/opencode/releases/latest/download/$asset" opencode tar.gz
+}
+
+install_opencode_user_service() {
+  local service_src="$REPO_ROOT/assets/systemd/user/opencode.service"
+  local service_dst="$HOME/.config/systemd/user/opencode.service"
+
+  if [[ "$ENABLE_OPENCODE_SERVICE" != "true" ]]; then
+    return 0
+  fi
+
+  info "Installing opencode user service"
+  install_user_file "$service_src" "$service_dst"
+  reload_user_systemd
+  enable_user_service opencode.service
 }
 
 install_tgcli() {
@@ -133,6 +149,7 @@ EOF
 install_cli_tools() {
   if [[ "$INSTALL_OPENCODE" == "true" ]]; then
     install_opencode
+    install_opencode_user_service
   fi
 
   if [[ "$INSTALL_TGCLI" == "true" ]]; then

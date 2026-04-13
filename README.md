@@ -9,6 +9,7 @@ Ubuntu / Arch Linux 向けの開発マシン初期セットアップ repo です
 - パッケージ導入
 - Docker 導入と daemon 設定
 - `systemd` service の有効化
+- `opencode` など開発環境向け user `systemd` service の配備
 - `zsh` などの開発用 CLI の初期導入
 - `chezmoi` のインストールと dotfiles 適用の起点
 
@@ -18,7 +19,8 @@ Ubuntu / Arch Linux 向けの開発マシン初期セットアップ repo です
 - `~/.gitconfig`
 - `~/.config/nvim/*`
 - `~/.local/bin/*`
-- `~/.config/systemd/user/*`
+
+例外として、開発環境の起動を前提にした user `systemd` service はこの repo で配備することがあります。
 
 ## Layout
 
