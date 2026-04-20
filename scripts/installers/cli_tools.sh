@@ -3,6 +3,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"
+BITWARDEN_RELEASES_API_URL="https://api.github.com/repos/bitwarden/clients/releases?per_page=30"
 
 # shellcheck source=/dev/null
 source "$REPO_ROOT/scripts/lib/logging.sh"
@@ -33,6 +34,10 @@ install_release_binary() {
     tar.gz)
       curl -fsSL "$url" -o "$tmpdir/archive.tgz"
       tar -xzf "$tmpdir/archive.tgz" -C "$tmpdir"
+      ;;
+    zip)
+      curl -fsSL "$url" -o "$tmpdir/archive.zip"
+      unzip -q "$tmpdir/archive.zip" -d "$tmpdir"
       ;;
     *)
       rm -rf "$tmpdir"
@@ -125,28 +130,47 @@ install_stripe_cli() {
   GOBIN="$HOME/.local/bin" go install github.com/stripe/stripe-cli/cmd/stripe@latest
 }
 
-install_bw_wrapper() {
-  local target="$HOME/.local/bin/bw"
+resolve_bitwarden_cli_asset_url() {
+  local pattern="$1"
 
-  ensure_home_local_bin
-  require_command flatpak
+  require_command curl
+  require_command jq
 
-  if ! flatpak info --user com.bitwarden.desktop >/dev/null 2>&1; then
-    die "Bitwarden Flatpak is required before installing the bw wrapper"
+  curl -fsSL "$BITWARDEN_RELEASES_API_URL" \
+    | jq -r --arg pattern "$pattern" 'first(.[] | select(.tag_name | startswith("cli-v")) | .assets[] | select(.name | test($pattern)) | .browser_download_url) // empty'
+}
+
+install_bitwarden_cli() {
+  local arch
+  local pattern
+  local url
+
+  arch="$(linux_machine_arch)"
+
+  case "$arch" in
+    amd64)
+      pattern='^bw-linux-[0-9].*\.zip$'
+      ;;
+    arm64)
+      pattern='^bw-linux-arm64-[0-9].*\.zip$'
+      ;;
+  esac
+
+  url="$(resolve_bitwarden_cli_asset_url "$pattern")"
+
+  if [[ -z "$url" ]]; then
+    die "Could not find the latest Bitwarden CLI asset for $arch"
   fi
 
-  info "Installing bw flatpak wrapper"
-
-  cat >"$target" <<'EOF'
-#!/usr/bin/env bash
-set -euo pipefail
-exec flatpak run --user --command=bw com.bitwarden.desktop "$@"
-EOF
-
-  chmod +x "$target"
+  info "Installing Bitwarden CLI"
+  install_release_binary "$url" bw zip
 }
 
 install_cli_tools() {
+  if [[ "$INSTALL_BITWARDEN_CLI" == "true" ]]; then
+    install_bitwarden_cli
+  fi
+
   if [[ "$INSTALL_OPENCODE" == "true" ]]; then
     install_opencode
     install_opencode_user_service
@@ -162,10 +186,6 @@ install_cli_tools() {
 
   if [[ "$INSTALL_STRIPE_CLI" == "true" ]]; then
     install_stripe_cli
-  fi
-
-  if [[ "$INSTALL_BW_WRAPPER" == "true" ]]; then
-    install_bw_wrapper
   fi
 }
 

@@ -53,7 +53,6 @@ main() {
   fi
 
   assert_obsidian_installed
-  su - "$TEST_USER" -c "PATH='$USER_PATH' flatpak list --user --app --columns=application | grep -qx 'com.bitwarden.desktop'"
   su - "$TEST_USER" -c "PATH='$USER_PATH' bw --version >/dev/null"
   su - "$TEST_USER" -c "PATH='$USER_PATH' ngrok version >/dev/null"
   su - "$TEST_USER" -c "PATH='$USER_PATH' opencode --version >/dev/null"

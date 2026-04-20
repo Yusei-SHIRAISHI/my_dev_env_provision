@@ -20,11 +20,6 @@ ensure_flathub_remote() {
 install_flatpak_apps() {
   require_command flatpak
   ensure_flathub_remote
-
-  if [[ "$INSTALL_BITWARDEN_FLATPAK" == "true" ]]; then
-    info "Installing Bitwarden via flatpak"
-    flatpak install --user -y flathub com.bitwarden.desktop
-  fi
 }
 
 main() {

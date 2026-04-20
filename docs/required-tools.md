@@ -58,13 +58,13 @@
 - `tailscale`
 - `syncthing`
 - `obsidian` (upstream の latest `AppImage`)
-- `bitwarden cli` (`flatpak` 経由を優先)
+- `bitwarden cli` (standalone install)
 
 ## Notes
 
 - `mise` は language runtime 本体と CLI plugin の導入方針を分けて整理する
 - `obsidian` は package manager ではなく upstream の latest release asset で扱う
-- `bw` は native package よりも `flatpak` 導入を優先する
+- `bw` は standalone CLI binary を直接導入する
 - `ssh` は client だけでなく daemon も必要
 - `build-essential` は Ubuntu 側の表現で、Arch 側は `base-devel` で吸収する
 - `netcat` は distro ごとの標準的な package を採用する

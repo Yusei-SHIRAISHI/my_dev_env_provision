@@ -45,6 +45,7 @@ sudo ./setup.sh --user yusei
 su - yusei
 git clone <repo-url> ~/my_dev_env_provision
 cd ~/my_dev_env_provision
+make build-install-config
 ./install.sh
 ~/.local/bin/bw login
 ~/.local/bin/bw unlock
@@ -71,6 +72,10 @@ integration test は `tests/run-bootstrap-tests.sh` と `tests/run-optional-feat
 
 `DOTFILES_REPO` を省略した場合は `config/defaults.env` の `DEFAULT_DOTFILES_REPO` を参照します。既定値は `Yusei-SHIRAISHI/my_dotfiles` です。
 
+選択式の install は `make build-install-config` を実行すると対話式で選べます。選択結果は `config/install.selection.env` に保存され、依存関係を解決した `config/install.generated.env` が生成されます。`install.sh` はそのファイルを自動で読み込みます。
+
+既存の選択内容をそのまま使って再生成したい場合は `./scripts/build-install-config.sh --from-file config/install.selection.env` を使えます。
+
 ## Role Order
 
 1. `00_base.sh`
@@ -88,9 +93,13 @@ integration test は `tests/run-bootstrap-tests.sh` と `tests/run-optional-feat
 
 `SETUP_ROLES=00_base,30_docker ./install.sh` のようにすると一部 role だけ実行できます。
 
+対話式 builder では `editors`, `docker`, `mise`, `ssh-service`, `syncthing`, `tailscale`, `obsidian`, `bitwarden-cli`, `opencode`, `tgcli`, `ngrok`, `stripe-cli` を選べます。
+
+`bitwarden-cli` は `80_cli_tools` role に含まれ、standalone の `bw` binary を直接導入します。
+
 `60_services` と `70_flatpak_apps` と `80_cli_tools` は `00_base` で base package が入っている前提です。
 
-`70_flatpak_apps` は Obsidian を upstream の latest `AppImage` で導入し、Bitwarden は引き続き `flatpak` で導入します。
+`70_flatpak_apps` は Obsidian の導入に使います。
 
 ## Notes
 

@@ -130,13 +130,12 @@ main() {
     -e ENABLE_TAILSCALE_SERVICE=false \
     -e INSTALL_FLATPAK_APPS=true \
     -e INSTALL_OBSIDIAN=true \
-    -e INSTALL_BITWARDEN_FLATPAK=true \
     -e INSTALL_CLI_TOOLS=true \
+    -e INSTALL_BITWARDEN_CLI=true \
     -e INSTALL_OPENCODE=true \
     -e INSTALL_TGCLI=true \
     -e INSTALL_NGROK=true \
     -e INSTALL_STRIPE_CLI=true \
-    -e INSTALL_BW_WRAPPER=true \
     -e PATH="/home/$TEST_USER/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
     "$CONTAINER_NAME" \
     bash -lc 'cd /repo && ./install.sh'

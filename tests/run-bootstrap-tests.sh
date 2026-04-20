@@ -143,7 +143,7 @@ run_test() {
       -e ENABLE_TAILSCALE_SERVICE=false \
       -e INSTALL_FLATPAK_APPS=true \
       -e INSTALL_OBSIDIAN=false \
-      -e INSTALL_BITWARDEN_FLATPAK=false \
+      -e INSTALL_BITWARDEN_CLI=false \
       -e INSTALL_CLI_TOOLS=false \
       -e PATH="/home/$TEST_USER/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
       "$container_name" \

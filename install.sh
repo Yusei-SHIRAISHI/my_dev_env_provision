@@ -17,6 +17,18 @@ source "$REPO_ROOT/scripts/lib/systemd.sh"
 # shellcheck source=/dev/null
 source "$REPO_ROOT/config/defaults.env"
 
+load_install_config() {
+  local config_file="${INSTALL_CONFIG_FILE:-$REPO_ROOT/config/install.generated.env}"
+
+  if [[ ! -f "$config_file" ]]; then
+    return 0
+  fi
+
+  info "Loading install config: $config_file"
+  # shellcheck disable=SC1090
+  source "$config_file"
+}
+
 print_chezmoi_next_steps() {
   local dotfiles_repo="$1"
 
@@ -36,6 +48,7 @@ print_chezmoi_next_steps() {
 
 main() {
   ensure_non_root_invocation
+  load_install_config
   load_distro
   load_package_config "$REPO_ROOT/config/packages.$DISTRO"
   require_sudo

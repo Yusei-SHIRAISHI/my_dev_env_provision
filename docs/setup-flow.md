@@ -30,3 +30,14 @@ DOTFILES_REPO="yusei-shiraishi/my_dotfiles" ./install.sh
 ```bash
 SETUP_ROLES="00_base,30_docker,90_verify" ./install.sh
 ```
+
+## Generated Install Config
+
+```bash
+make build-install-config
+./install.sh
+```
+
+`config/install.selection.env` に選択した feature を書くと、`scripts/build-install-config.sh` が依存関係込みで `config/install.generated.env` を生成します。`install.sh` はこの generated config を自動で読み込みます。
+
+通常は `make build-install-config` を実行すると対話式で feature を選べます。保存済みの選択から再生成だけしたい場合は `./scripts/build-install-config.sh --from-file config/install.selection.env` を使います。
