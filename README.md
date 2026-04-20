@@ -99,7 +99,7 @@ integration test は `tests/run-bootstrap-tests.sh` と `tests/run-optional-feat
 
 `60_services` と `70_flatpak_apps` と `80_cli_tools` は `00_base` で base package が入っている前提です。
 
-`70_flatpak_apps` は Obsidian の導入に使います。
+`70_flatpak_apps` は現在 Obsidian の導入に使っています。名前は historical ですが、`flatpak` 自体には依存しません。
 
 ## Notes
 

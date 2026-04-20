@@ -3,7 +3,6 @@ BASE_PACKAGES=(
   bind
   curl
   direnv
-  flatpak
   fzf
   git
   github-cli

@@ -27,7 +27,6 @@
 
 ## Base Packages
 
-- `flatpak`
 - `build-essential` / `base-devel`
 
 ## Runtime Management

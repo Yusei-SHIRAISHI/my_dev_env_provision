@@ -53,7 +53,7 @@ assert_user_shell() {
 }
 
 main() {
-  local root_commands=(curl direnv docker flatpak fzf gh git jq nc nvim nslookup dig rg rsync ssh tig tmux traceroute unzip vim wget zsh)
+  local root_commands=(curl direnv docker fzf gh git jq nc nvim nslookup dig rg rsync ssh tig tmux traceroute unzip vim wget zsh)
   local user_commands=(chezmoi mise)
   local cmd
 
@@ -76,7 +76,6 @@ main() {
   su - "$TEST_USER" -c "sudo -n true"
   su - "$TEST_USER" -c "PATH='$USER_PATH' docker info >/dev/null"
   su - "$TEST_USER" -c "PATH='$USER_PATH' chezmoi --version >/dev/null"
-  su - "$TEST_USER" -c "PATH='$USER_PATH' flatpak remote-list --user | grep -q '^flathub'"
   su - "$TEST_USER" -c "PATH='$USER_PATH' mise --version >/dev/null"
 }
 
