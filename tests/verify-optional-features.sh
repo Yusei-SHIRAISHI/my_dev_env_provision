@@ -33,7 +33,7 @@ assert_obsidian_installed() {
 
 main() {
   local root_commands=(syncthing tailscale)
-  local user_commands=(bw ngrok opencode stripe tgcli)
+  local user_commands=(bw gcloud ngrok opencode stripe tgcli)
   local cmd
 
   for cmd in "${root_commands[@]}"; do
@@ -54,6 +54,7 @@ main() {
 
   assert_obsidian_installed
   su - "$TEST_USER" -c "PATH='$USER_PATH' bw --version >/dev/null"
+  su - "$TEST_USER" -c "PATH='$USER_PATH' gcloud version >/dev/null"
   su - "$TEST_USER" -c "PATH='$USER_PATH' ngrok version >/dev/null"
   su - "$TEST_USER" -c "PATH='$USER_PATH' opencode --version >/dev/null"
   su - "$TEST_USER" -c "PATH='$USER_PATH' stripe version >/dev/null"

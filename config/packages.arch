@@ -39,6 +39,11 @@ STRIPE_BUILD_PACKAGES=(
   go
 )
 
+GCLOUD_PREREQ_PACKAGES=(
+  python
+  tar
+)
+
 SYNCTHING_PACKAGES=(
   syncthing
 )

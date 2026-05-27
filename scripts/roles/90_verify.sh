@@ -8,6 +8,10 @@ run_role_90_verify() {
     required_commands+=(vim nvim)
   fi
 
+  if [[ "$INSTALL_GCLOUD_CLI" == "true" ]]; then
+    required_commands+=(gcloud)
+  fi
+
   for cmd in "${required_commands[@]}"; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
       warn "Missing command after bootstrap: $cmd"

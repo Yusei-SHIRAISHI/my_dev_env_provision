@@ -28,6 +28,7 @@ declare -A OPTIONAL_FLAGS=(
   [INSTALL_TGCLI]=false
   [INSTALL_NGROK]=false
   [INSTALL_STRIPE_CLI]=false
+  [INSTALL_GCLOUD_CLI]=false
 )
 declare -a ENABLED_ROLES=(00_base 10_shell 20_git 90_verify)
 
@@ -44,6 +45,7 @@ FEATURE_ORDER=(
   tgcli
   ngrok
   stripe-cli
+  gcloud-cli
 )
 
 die() {
@@ -209,6 +211,11 @@ enable_feature() {
       OPTIONAL_FLAGS[INSTALL_STRIPE_CLI]=true
       append_unique 80_cli_tools
       ;;
+    gcloud-cli)
+      OPTIONAL_FLAGS[INSTALL_CLI_TOOLS]=true
+      OPTIONAL_FLAGS[INSTALL_GCLOUD_CLI]=true
+      append_unique 80_cli_tools
+      ;;
     *)
       die "Unsupported install feature: $feature"
       ;;
@@ -229,6 +236,7 @@ feature_prompt() {
     tgcli) printf 'Install tgcli' ;;
     ngrok) printf 'Install ngrok' ;;
     stripe-cli) printf 'Install Stripe CLI' ;;
+    gcloud-cli) printf 'Install Google Cloud CLI (gcloud)' ;;
     *) die "Unsupported install feature: $1" ;;
   esac
 }
@@ -407,7 +415,8 @@ write_output() {
       ENABLE_OPENCODE_SERVICE \
       INSTALL_TGCLI \
       INSTALL_NGROK \
-      INSTALL_STRIPE_CLI; do
+      INSTALL_STRIPE_CLI \
+      INSTALL_GCLOUD_CLI; do
       printf 'export %s=%q\n' "$flag" "${OPTIONAL_FLAGS[$flag]}"
     done
 

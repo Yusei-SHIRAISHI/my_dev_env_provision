@@ -4,6 +4,7 @@ set -euo pipefail
 
 REPO_ROOT="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"
 BITWARDEN_RELEASES_API_URL="https://api.github.com/repos/bitwarden/clients/releases?per_page=30"
+GCLOUD_DOWNLOAD_BASE_URL="https://dl.google.com/dl/cloudsdk/channels/rapid/downloads"
 
 # shellcheck source=/dev/null
 source "$REPO_ROOT/scripts/lib/logging.sh"
@@ -130,6 +131,77 @@ install_stripe_cli() {
   GOBIN="$HOME/.local/bin" go install github.com/stripe/stripe-cli/cmd/stripe@latest
 }
 
+link_gcloud_commands() {
+  local install_dir="$1"
+  local command_name
+
+  ensure_home_local_bin
+
+  for command_name in gcloud bq gsutil; do
+    if [[ -x "$install_dir/bin/$command_name" ]]; then
+      ln -sf "$install_dir/bin/$command_name" "$HOME/.local/bin/$command_name"
+    fi
+  done
+}
+
+install_gcloud_cli() {
+  local arch
+  local asset
+  local install_dir="${GCLOUD_INSTALL_DIR:-$HOME/.local/google-cloud-sdk}"
+  local tmpdir
+
+  ensure_home_local_bin
+
+  if [[ -x "$install_dir/bin/gcloud" ]]; then
+    info "gcloud already installed at $install_dir"
+    link_gcloud_commands "$install_dir"
+    return 0
+  fi
+
+  if command -v gcloud >/dev/null 2>&1; then
+    info "gcloud already installed"
+    return 0
+  fi
+
+  if [[ -e "$install_dir" ]]; then
+    die "Existing Google Cloud CLI install dir is not usable: $install_dir"
+  fi
+
+  arch="$(linux_machine_arch)"
+
+  case "$arch" in
+    amd64)
+      asset="google-cloud-cli-linux-x86_64.tar.gz"
+      ;;
+    arm64)
+      asset="google-cloud-cli-linux-arm.tar.gz"
+      ;;
+  esac
+
+  load_distro
+  load_package_config "$REPO_ROOT/config/packages.$DISTRO"
+  install_package_group GCLOUD_PREREQ_PACKAGES
+  require_command curl
+  require_command tar
+
+  info "Installing Google Cloud CLI"
+  tmpdir="$(mktemp -d)"
+  curl -fsSL "$GCLOUD_DOWNLOAD_BASE_URL/$asset" -o "$tmpdir/$asset"
+  tar -xzf "$tmpdir/$asset" -C "$tmpdir"
+  mkdir -p "$(dirname -- "$install_dir")"
+  mv "$tmpdir/google-cloud-sdk" "$install_dir"
+  rm -rf "$tmpdir"
+
+  CLOUDSDK_CORE_DISABLE_PROMPTS=1 \
+    "$install_dir/install.sh" \
+      --quiet \
+      --path-update=false \
+      --command-completion=false \
+      --usage-reporting=false
+
+  link_gcloud_commands "$install_dir"
+}
+
 resolve_bitwarden_cli_asset_url() {
   local pattern="$1"
 
@@ -186,6 +258,10 @@ install_cli_tools() {
 
   if [[ "$INSTALL_STRIPE_CLI" == "true" ]]; then
     install_stripe_cli
+  fi
+
+  if [[ "$INSTALL_GCLOUD_CLI" == "true" ]]; then
+    install_gcloud_cli
   fi
 }
 

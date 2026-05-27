@@ -35,6 +35,7 @@ SELECT_INSTALL_FEATURES=(
   syncthing
   stripe-cli
   bitwarden-cli
+  gcloud-cli
 )
 
 APPLY_CHEZMOI=true
@@ -53,6 +54,7 @@ EOF
   assert_equals true "$INSTALL_CLI_TOOLS" INSTALL_CLI_TOOLS
   assert_equals true "$INSTALL_BITWARDEN_CLI" INSTALL_BITWARDEN_CLI
   assert_equals true "$INSTALL_STRIPE_CLI" INSTALL_STRIPE_CLI
+  assert_equals true "$INSTALL_GCLOUD_CLI" INSTALL_GCLOUD_CLI
   assert_equals false "$INSTALL_FLATPAK_APPS" INSTALL_FLATPAK_APPS
   assert_equals true "$APPLY_CHEZMOI" APPLY_CHEZMOI
 
@@ -69,6 +71,7 @@ EOF
   assert_equals true "$ENABLE_SSH_SERVICE" INTERACTIVE_ENABLE_SSH_SERVICE
   assert_equals false "$INSTALL_SYNCTHING" INTERACTIVE_INSTALL_SYNCTHING
   assert_equals false "$INSTALL_CLI_TOOLS" INTERACTIVE_INSTALL_CLI_TOOLS
+  assert_equals false "$INSTALL_GCLOUD_CLI" INTERACTIVE_INSTALL_GCLOUD_CLI
 }
 
 main

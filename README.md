@@ -93,9 +93,11 @@ integration test は `tests/run-bootstrap-tests.sh` と `tests/run-optional-feat
 
 `SETUP_ROLES=00_base,30_docker ./install.sh` のようにすると一部 role だけ実行できます。
 
-対話式 builder では `editors`, `docker`, `mise`, `ssh-service`, `syncthing`, `tailscale`, `obsidian`, `bitwarden-cli`, `opencode`, `tgcli`, `ngrok`, `stripe-cli` を選べます。
+対話式 builder では `editors`, `docker`, `mise`, `ssh-service`, `syncthing`, `tailscale`, `obsidian`, `bitwarden-cli`, `opencode`, `tgcli`, `ngrok`, `stripe-cli`, `gcloud-cli` を選べます。
 
 `bitwarden-cli` は `80_cli_tools` role に含まれ、standalone の `bw` binary を直接導入します。
+
+`gcloud-cli` は Google 公式の Linux archive を `~/.local/google-cloud-sdk` に展開し、`~/.local/bin/gcloud` を作成します。認証と project 設定は自動化せず、インストール後に `gcloud init` や `gcloud auth application-default login --no-launch-browser` を手動で実行します。
 
 `60_services` と `70_flatpak_apps` と `80_cli_tools` は `00_base` で base package が入っている前提です。
 
