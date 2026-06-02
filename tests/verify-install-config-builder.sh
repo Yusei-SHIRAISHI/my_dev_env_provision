@@ -31,11 +31,11 @@ main() {
 
   cat >"$input_file" <<'EOF'
 SELECT_INSTALL_FEATURES=(
-  docker
   syncthing
   stripe-cli
   bitwarden-cli
   gcloud-cli
+  open-design
 )
 
 APPLY_CHEZMOI=true
@@ -46,7 +46,7 @@ EOF
   # shellcheck disable=SC1090
   source "$output_file"
 
-  assert_equals "00_base,10_shell,20_git,30_docker,60_services,80_cli_tools,90_verify" "$SETUP_ROLES" SETUP_ROLES
+  assert_equals "00_base,10_shell,20_git,30_docker,60_services,80_cli_tools,85_local_apps,90_verify" "$SETUP_ROLES" SETUP_ROLES
   assert_equals true "$ENABLE_DOCKER" ENABLE_DOCKER
   assert_equals false "$INSTALL_EDITORS" INSTALL_EDITORS
   assert_equals true "$INSTALL_SYSTEM_SERVICES" INSTALL_SYSTEM_SERVICES
@@ -55,10 +55,13 @@ EOF
   assert_equals true "$INSTALL_BITWARDEN_CLI" INSTALL_BITWARDEN_CLI
   assert_equals true "$INSTALL_STRIPE_CLI" INSTALL_STRIPE_CLI
   assert_equals true "$INSTALL_GCLOUD_CLI" INSTALL_GCLOUD_CLI
+  assert_equals true "$INSTALL_LOCAL_APPS" INSTALL_LOCAL_APPS
+  assert_equals true "$INSTALL_OPEN_DESIGN" INSTALL_OPEN_DESIGN
+  assert_equals true "$ENABLE_OPEN_DESIGN_SERVICE" ENABLE_OPEN_DESIGN_SERVICE
   assert_equals false "$INSTALL_FLATPAK_APPS" INSTALL_FLATPAK_APPS
   assert_equals true "$APPLY_CHEZMOI" APPLY_CHEZMOI
 
-  printf 'y\ny\ny\ny\nn\nn\nn\nn\nn\nn\nn\nn\nn\n' | \
+  printf 'y\ny\ny\ny\nn\nn\nn\nn\nn\nn\nn\nn\nn\nn\n' | \
     "$REPO_ROOT/scripts/build-install-config.sh" --interactive --selection-file "$interactive_selection_file" --output "$interactive_output_file"
 
   # shellcheck disable=SC1090

@@ -31,6 +31,14 @@ assert_obsidian_installed() {
   su - "$TEST_USER" -c "PATH='$USER_PATH' obsidian --version >/dev/null"
 }
 
+assert_open_design_installed() {
+  su - "$TEST_USER" -c "test -f '$USER_HOME/.local/share/open-design/docker-compose.yml'"
+  su - "$TEST_USER" -c "test -f '$USER_HOME/.local/share/open-design/.env'"
+  su - "$TEST_USER" -c "grep -Eq '^OD_API_TOKEN=[0-9a-f]{64}$' '$USER_HOME/.local/share/open-design/.env'"
+  su - "$TEST_USER" -c "systemctl --user is-enabled open-design.service >/dev/null"
+  su - "$TEST_USER" -c "systemctl --user is-active open-design.service >/dev/null"
+}
+
 main() {
   local root_commands=(syncthing tailscale)
   local user_commands=(bw gcloud ngrok opencode stripe tgcli)
@@ -59,6 +67,7 @@ main() {
   su - "$TEST_USER" -c "PATH='$USER_PATH' opencode --version >/dev/null"
   su - "$TEST_USER" -c "PATH='$USER_PATH' stripe version >/dev/null"
   su - "$TEST_USER" -c "PATH='$USER_PATH' tgcli --version >/dev/null"
+  assert_open_design_installed
 }
 
 main

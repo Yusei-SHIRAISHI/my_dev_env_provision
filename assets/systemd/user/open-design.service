@@ -1,0 +1,14 @@
+[Unit]
+Description=Open Design
+Documentation=https://github.com/nexu-io/open-design
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=%h/.local/share/open-design
+ExecStart=/usr/bin/env docker compose --project-name open-design up -d
+ExecStop=/usr/bin/env docker compose --project-name open-design down
+TimeoutStartSec=120
+
+[Install]
+WantedBy=default.target

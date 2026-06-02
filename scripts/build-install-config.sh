@@ -29,6 +29,9 @@ declare -A OPTIONAL_FLAGS=(
   [INSTALL_NGROK]=false
   [INSTALL_STRIPE_CLI]=false
   [INSTALL_GCLOUD_CLI]=false
+  [INSTALL_LOCAL_APPS]=false
+  [INSTALL_OPEN_DESIGN]=false
+  [ENABLE_OPEN_DESIGN_SERVICE]=false
 )
 declare -a ENABLED_ROLES=(00_base 10_shell 20_git 90_verify)
 
@@ -46,6 +49,7 @@ FEATURE_ORDER=(
   ngrok
   stripe-cli
   gcloud-cli
+  open-design
 )
 
 die() {
@@ -216,6 +220,13 @@ enable_feature() {
       OPTIONAL_FLAGS[INSTALL_GCLOUD_CLI]=true
       append_unique 80_cli_tools
       ;;
+    open-design)
+      enable_feature docker
+      OPTIONAL_FLAGS[INSTALL_LOCAL_APPS]=true
+      OPTIONAL_FLAGS[INSTALL_OPEN_DESIGN]=true
+      OPTIONAL_FLAGS[ENABLE_OPEN_DESIGN_SERVICE]=true
+      append_unique 85_local_apps
+      ;;
     *)
       die "Unsupported install feature: $feature"
       ;;
@@ -237,6 +248,7 @@ feature_prompt() {
     ngrok) printf 'Install ngrok' ;;
     stripe-cli) printf 'Install Stripe CLI' ;;
     gcloud-cli) printf 'Install Google Cloud CLI (gcloud)' ;;
+    open-design) printf 'Install Open Design Docker app and user service' ;;
     *) die "Unsupported install feature: $1" ;;
   esac
 }
@@ -365,6 +377,7 @@ ordered_roles_csv() {
     60_services
     70_flatpak_apps
     80_cli_tools
+    85_local_apps
     90_verify
   )
   local role
@@ -416,7 +429,10 @@ write_output() {
       INSTALL_TGCLI \
       INSTALL_NGROK \
       INSTALL_STRIPE_CLI \
-      INSTALL_GCLOUD_CLI; do
+      INSTALL_GCLOUD_CLI \
+      INSTALL_LOCAL_APPS \
+      INSTALL_OPEN_DESIGN \
+      ENABLE_OPEN_DESIGN_SERVICE; do
       printf 'export %s=%q\n' "$flag" "${OPTIONAL_FLAGS[$flag]}"
     done
 

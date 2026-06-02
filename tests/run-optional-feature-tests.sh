@@ -137,6 +137,9 @@ main() {
     -e INSTALL_NGROK=true \
     -e INSTALL_STRIPE_CLI=true \
     -e INSTALL_GCLOUD_CLI=true \
+    -e INSTALL_LOCAL_APPS=true \
+    -e INSTALL_OPEN_DESIGN=true \
+    -e ENABLE_OPEN_DESIGN_SERVICE=true \
     -e PATH="/home/$TEST_USER/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
     "$CONTAINER_NAME" \
     bash -lc 'cd /repo && ./install.sh'

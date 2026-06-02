@@ -64,6 +64,7 @@ main() {
     60_services
     70_flatpak_apps
     80_cli_tools
+    85_local_apps
     90_verify
   )
 
