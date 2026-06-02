@@ -15,7 +15,7 @@ services:
       OD_API_TOKEN: ${OD_API_TOKEN:?Please generate OD_API_TOKEN in .env.}
       OD_CODEX_SANDBOX: ${OD_CODEX_SANDBOX:-}
     ports:
-      - "127.0.0.1:${OPEN_DESIGN_PORT:-7456}:7456"
+      - "${OPEN_DESIGN_BIND_HOST:-127.0.0.1}:${OPEN_DESIGN_PORT:-7456}:7456"
     volumes:
       - open_design_data:/app/.od
     read_only: true

@@ -74,4 +74,4 @@
 - `nslookup` と `dig` は distro ごとの DNS utility package で吸収する
 - `tailscale` と `syncthing` は package install に加えて `systemd` enable 方針も決める
 - `docker` は daemon 設定と `docker` group 追加までこの repo で担当する
-- `open-design` は Docker image を使い、`~/.local/share/open-design` に compose file と `.env` を置く
+- `open-design` は Docker image を使い、`~/.local/share/open-design` に compose file と `.env` を置く。既定では `devpc:7456` で LAN からアクセスできるように bind する

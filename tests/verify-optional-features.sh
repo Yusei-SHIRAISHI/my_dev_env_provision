@@ -35,6 +35,8 @@ assert_open_design_installed() {
   su - "$TEST_USER" -c "test -f '$USER_HOME/.local/share/open-design/docker-compose.yml'"
   su - "$TEST_USER" -c "test -f '$USER_HOME/.local/share/open-design/.env'"
   su - "$TEST_USER" -c "grep -Eq '^OD_API_TOKEN=[0-9a-f]{64}$' '$USER_HOME/.local/share/open-design/.env'"
+  su - "$TEST_USER" -c "grep -qx 'OPEN_DESIGN_BIND_HOST=0.0.0.0' '$USER_HOME/.local/share/open-design/.env'"
+  su - "$TEST_USER" -c "grep -qx 'OPEN_DESIGN_ALLOWED_ORIGINS=http://devpc:7456,http://127.0.0.1:7456' '$USER_HOME/.local/share/open-design/.env'"
   su - "$TEST_USER" -c "systemctl --user is-enabled open-design.service >/dev/null"
   su - "$TEST_USER" -c "systemctl --user is-active open-design.service >/dev/null"
 }
