@@ -221,7 +221,7 @@ enable_feature() {
       append_unique 80_cli_tools
       ;;
     open-design)
-      enable_feature docker
+      enable_feature mise
       OPTIONAL_FLAGS[INSTALL_LOCAL_APPS]=true
       OPTIONAL_FLAGS[INSTALL_OPEN_DESIGN]=true
       OPTIONAL_FLAGS[ENABLE_OPEN_DESIGN_SERVICE]=true
@@ -248,7 +248,7 @@ feature_prompt() {
     ngrok) printf 'Install ngrok' ;;
     stripe-cli) printf 'Install Stripe CLI' ;;
     gcloud-cli) printf 'Install Google Cloud CLI (gcloud)' ;;
-    open-design) printf 'Install Open Design Docker app and user service' ;;
+    open-design) printf 'Install Open Design source app and user service' ;;
     *) die "Unsupported install feature: $1" ;;
   esac
 }

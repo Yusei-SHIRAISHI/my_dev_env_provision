@@ -46,9 +46,10 @@ EOF
   # shellcheck disable=SC1090
   source "$output_file"
 
-  assert_equals "00_base,10_shell,20_git,30_docker,60_services,80_cli_tools,85_local_apps,90_verify" "$SETUP_ROLES" SETUP_ROLES
-  assert_equals true "$ENABLE_DOCKER" ENABLE_DOCKER
+  assert_equals "00_base,10_shell,20_git,50_languages,60_services,80_cli_tools,85_local_apps,90_verify" "$SETUP_ROLES" SETUP_ROLES
+  assert_equals false "$ENABLE_DOCKER" ENABLE_DOCKER
   assert_equals false "$INSTALL_EDITORS" INSTALL_EDITORS
+  assert_equals true "$INSTALL_MISE" INSTALL_MISE
   assert_equals true "$INSTALL_SYSTEM_SERVICES" INSTALL_SYSTEM_SERVICES
   assert_equals true "$INSTALL_SYNCTHING" INSTALL_SYNCTHING
   assert_equals true "$INSTALL_CLI_TOOLS" INSTALL_CLI_TOOLS

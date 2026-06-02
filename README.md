@@ -10,7 +10,7 @@ Ubuntu / Arch Linux 向けの開発マシン初期セットアップ repo です
 - Docker 導入と daemon 設定
 - `systemd` service の有効化
 - `opencode` など開発環境向け user `systemd` service の配備
-- Open Design など Docker で動かす local app service の配備
+- Open Design など local app service の配備
 - `zsh` などの開発用 CLI の初期導入
 - `chezmoi` のインストールと dotfiles 適用の起点
 
@@ -101,7 +101,7 @@ integration test は `tests/run-bootstrap-tests.sh` と `tests/run-optional-feat
 
 `gcloud-cli` は Google 公式の Linux archive を `~/.local/google-cloud-sdk` に展開し、`~/.local/bin/gcloud` を作成します。認証と project 設定は自動化せず、インストール後に `gcloud init` や `gcloud auth application-default login --no-launch-browser` を手動で実行します。
 
-`open-design` は `~/.local/share/open-design` に Docker compose 設定を配備し、user `systemd` service として `http://devpc:7456` と `http://127.0.0.1:7456` で起動します。`OD_API_TOKEN` は初回インストール時に `~/.local/share/open-design/.env` へ自動生成します。
+`open-design` は `~/.local/share/open-design/source` に source checkout を配備し、Node 24 と pnpm 10.33.2 で user `systemd` service として `http://devpc:7456` と `http://127.0.0.1:7456` で起動します。host 上の `codex` CLI と `~/.codex` の認証情報をそのまま使えます。
 
 `60_services` と `70_flatpak_apps` と `80_cli_tools` は `00_base` で base package が入っている前提です。
 

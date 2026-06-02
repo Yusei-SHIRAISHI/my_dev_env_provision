@@ -1,13 +1,15 @@
 [Unit]
 Description=Open Design
 Documentation=https://github.com/nexu-io/open-design
+Wants=network-online.target
+After=network-online.target
 
 [Service]
-Type=oneshot
-RemainAfterExit=yes
-WorkingDirectory=%h/.local/share/open-design
-ExecStart=/usr/bin/env docker compose --project-name open-design up -d
-ExecStop=/usr/bin/env docker compose --project-name open-design down
+Type=simple
+WorkingDirectory=%h/.local/share/open-design/source
+ExecStart=%h/.local/share/open-design/run.sh
+Restart=on-failure
+RestartSec=5
 TimeoutStartSec=120
 
 [Install]
