@@ -8,7 +8,7 @@ After=network-online.target
 Type=simple
 WorkingDirectory=%h
 Environment=HOME=%h
-Environment=PATH=%h/.local/bin:%h/.hermes/node/bin:/usr/local/bin:/usr/bin:/bin
+Environment=PATH=%h/.local/share/mise/shims:%h/.local/bin:%h/.hermes/node/bin:/usr/local/bin:/usr/bin:/bin
 Environment=HERMES_HOME=%h/.hermes
 Environment=HERMES_DASHBOARD_HOST=0.0.0.0
 Environment=HERMES_DASHBOARD_PORT=9119
