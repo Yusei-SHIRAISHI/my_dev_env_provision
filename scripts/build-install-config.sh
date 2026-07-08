@@ -26,6 +26,7 @@ declare -A OPTIONAL_FLAGS=(
   [INSTALL_OPENCODE]=false
   [ENABLE_OPENCODE_SERVICE]=false
   [INSTALL_HERMES_AGENT]=false
+  [ENABLE_HERMES_DASHBOARD_SERVICE]=false
   [INSTALL_TGCLI]=false
   [INSTALL_NGROK]=false
   [INSTALL_STRIPE_CLI]=false
@@ -205,6 +206,7 @@ enable_feature() {
     hermes-agent)
       OPTIONAL_FLAGS[INSTALL_CLI_TOOLS]=true
       OPTIONAL_FLAGS[INSTALL_HERMES_AGENT]=true
+      OPTIONAL_FLAGS[ENABLE_HERMES_DASHBOARD_SERVICE]=true
       append_unique 80_cli_tools
       ;;
     tgcli)
@@ -251,7 +253,7 @@ feature_prompt() {
     obsidian) printf 'Install Obsidian AppImage integration' ;;
     bitwarden-cli) printf 'Install Bitwarden CLI' ;;
     opencode) printf 'Install opencode and user service' ;;
-    hermes-agent) printf 'Install Hermes Agent CLI' ;;
+    hermes-agent) printf 'Install Hermes Agent CLI and dashboard service' ;;
     tgcli) printf 'Install tgcli' ;;
     ngrok) printf 'Install ngrok' ;;
     stripe-cli) printf 'Install Stripe CLI' ;;
@@ -435,6 +437,7 @@ write_output() {
       INSTALL_OPENCODE \
       ENABLE_OPENCODE_SERVICE \
       INSTALL_HERMES_AGENT \
+      ENABLE_HERMES_DASHBOARD_SERVICE \
       INSTALL_TGCLI \
       INSTALL_NGROK \
       INSTALL_STRIPE_CLI \

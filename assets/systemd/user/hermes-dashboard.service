@@ -1,0 +1,22 @@
+[Unit]
+Description=Hermes Agent dashboard
+Documentation=https://github.com/NousResearch/hermes-agent
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h
+Environment=HOME=%h
+Environment=PATH=%h/.local/bin:%h/.hermes/node/bin:/usr/local/bin:/usr/bin:/bin
+Environment=HERMES_HOME=%h/.hermes
+Environment=HERMES_DASHBOARD_HOST=0.0.0.0
+Environment=HERMES_DASHBOARD_PORT=9119
+EnvironmentFile=-%h/.config/hermes-dashboard/dashboard.env
+ExecStart=%h/.local/bin/hermes dashboard --host ${HERMES_DASHBOARD_HOST} --port ${HERMES_DASHBOARD_PORT} --no-open
+Restart=on-failure
+RestartSec=5
+TimeoutStartSec=120
+
+[Install]
+WantedBy=default.target

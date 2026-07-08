@@ -134,6 +134,7 @@ main() {
     -e INSTALL_BITWARDEN_CLI=true \
     -e INSTALL_OPENCODE=true \
     -e INSTALL_HERMES_AGENT=false \
+    -e ENABLE_HERMES_DASHBOARD_SERVICE=false \
     -e INSTALL_TGCLI=true \
     -e INSTALL_NGROK=true \
     -e INSTALL_STRIPE_CLI=true \

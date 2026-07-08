@@ -9,6 +9,8 @@ source "$REPO_ROOT/scripts/lib/logging.sh"
 # shellcheck source=/dev/null
 source "$REPO_ROOT/scripts/lib/common.sh"
 # shellcheck source=/dev/null
+source "$REPO_ROOT/scripts/lib/systemd.sh"
+# shellcheck source=/dev/null
 source "$REPO_ROOT/config/defaults.env"
 
 HERMES_AGENT_INSTALLER_TMPDIR=""
@@ -63,6 +65,54 @@ ignore_hermes_agent_install_stamp() {
   fi
 }
 
+write_hermes_dashboard_env() {
+  local env_dir="$HOME/.config/hermes-dashboard"
+  local env_file="$env_dir/dashboard.env"
+
+  mkdir -p "$env_dir"
+  cat >"$env_file" <<EOF
+HERMES_HOME=${HERMES_AGENT_HOME}
+HERMES_DASHBOARD_HOST=${HERMES_DASHBOARD_HOST}
+HERMES_DASHBOARD_PORT=${HERMES_DASHBOARD_PORT}
+EOF
+  chmod 0644 "$env_file"
+}
+
+remove_opencode_user_service() {
+  local service_dst="$HOME/.config/systemd/user/opencode.service"
+
+  if systemctl --user list-unit-files opencode.service >/dev/null 2>&1; then
+    info "Disabling opencode user service"
+    systemctl --user disable --now opencode.service >/dev/null 2>&1 || true
+  fi
+
+  if [[ -f "$service_dst" ]]; then
+    rm -f "$service_dst"
+    reload_user_systemd
+  fi
+}
+
+install_hermes_dashboard_service() {
+  local repo_root="${1:-$REPO_ROOT}"
+  local service_src="$repo_root/assets/systemd/user/hermes-dashboard.service"
+  local service_dst="$HOME/.config/systemd/user/hermes-dashboard.service"
+
+  if [[ "$ENABLE_HERMES_DASHBOARD_SERVICE" != "true" ]]; then
+    info "Skipping Hermes dashboard user service"
+    return 0
+  fi
+
+  remove_opencode_user_service
+  write_hermes_dashboard_env
+  install_user_file "$service_src" "$service_dst"
+  reload_user_systemd
+
+  info "Enabling Hermes dashboard user service"
+  enable_user_service hermes-dashboard.service
+  systemctl --user restart hermes-dashboard.service
+  info "Hermes dashboard is available at http://devpc:${HERMES_DASHBOARD_PORT}"
+}
+
 install_hermes_agent() {
   local installer_path
 
@@ -94,6 +144,7 @@ install_hermes_agent() {
   fi
 
   "$HOME/.local/bin/hermes" --version >/dev/null
+  install_hermes_dashboard_service
   info "Hermes Agent installed at $HERMES_AGENT_INSTALL_DIR"
 }
 
