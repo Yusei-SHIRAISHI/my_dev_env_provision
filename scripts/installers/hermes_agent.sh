@@ -65,6 +65,34 @@ ignore_hermes_agent_install_stamp() {
   fi
 }
 
+apply_hermes_agent_compat_patches() {
+  local patch_file="$REPO_ROOT/assets/patches/hermes-agent/password-dashboard-login-redirect.patch"
+
+  if [[ ! -f "$patch_file" ]]; then
+    return 0
+  fi
+
+  if [[ ! -d "$HERMES_AGENT_INSTALL_DIR/.git" ]]; then
+    warn "Skipping Hermes Agent compatibility patch because install dir is not a git checkout"
+    return 0
+  fi
+
+  require_command git
+
+  if git -C "$HERMES_AGENT_INSTALL_DIR" apply --reverse --check "$patch_file" >/dev/null 2>&1; then
+    info "Hermes Agent dashboard password-login patch is already applied"
+    return 0
+  fi
+
+  if git -C "$HERMES_AGENT_INSTALL_DIR" apply --check "$patch_file" >/dev/null 2>&1; then
+    info "Applying Hermes Agent dashboard password-login patch"
+    git -C "$HERMES_AGENT_INSTALL_DIR" apply "$patch_file"
+    return 0
+  fi
+
+  warn "Skipping Hermes Agent dashboard password-login patch because upstream no longer matches"
+}
+
 write_hermes_dashboard_env() {
   local env_dir="$HOME/.config/hermes-dashboard"
   local env_file="$env_dir/dashboard.env"
@@ -138,6 +166,7 @@ install_hermes_agent() {
     HERMES_INSTALL_DIR="$HERMES_AGENT_INSTALL_DIR" \
     bash "$installer_path" "${HERMES_AGENT_INSTALL_ARGS[@]}"
   ignore_hermes_agent_install_stamp
+  apply_hermes_agent_compat_patches
 
   if [[ ! -x "$HOME/.local/bin/hermes" ]]; then
     die "Hermes Agent command was not installed at $HOME/.local/bin/hermes"

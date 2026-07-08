@@ -101,7 +101,7 @@ integration test は `tests/run-bootstrap-tests.sh` と `tests/run-optional-feat
 
 `gcloud-cli` は Google 公式の Linux archive を `~/.local/google-cloud-sdk` に展開し、`~/.local/bin/gcloud` を作成します。認証と project 設定は自動化せず、インストール後に `gcloud init` や `gcloud auth application-default login --no-launch-browser` を手動で実行します。
 
-`hermes-agent` は Nous Research 公式 installer を一時ファイルにダウンロードして実行し、`~/.hermes/hermes-agent` と `~/.local/bin/hermes` を作成します。`hermes-dashboard.service` を user `systemd` service として配備し、`http://devpc:9119` と `http://127.0.0.1:9119` で dashboard を起動します。この service を有効化すると、旧 `opencode.service` は停止・無効化して user unit file も削除します。初回の API キーや model 設定は自動化せず、インストール後に `hermes setup` を手動で実行します。
+`hermes-agent` は Nous Research 公式 installer を一時ファイルにダウンロードして実行し、`~/.hermes/hermes-agent` と `~/.local/bin/hermes` を作成します。`hermes-dashboard.service` を user `systemd` service として配備し、`http://devpc:9119` と `http://127.0.0.1:9119` で dashboard を起動します。この service を有効化すると、旧 `opencode.service` は停止・無効化して user unit file も削除します。BasicAuth の dashboard login が `/auth/login` に誤誘導される upstream 版では、同梱 patch をインストール後に自動適用します。初回の API キーや model 設定は自動化せず、インストール後に `hermes setup` を手動で実行します。
 
 `open-design` は `~/.local/share/open-design/source` に source checkout を配備し、Node 24 と pnpm 10.33.2 で user `systemd` service として `http://devpc:7456` と `http://127.0.0.1:7456` で起動します。host 上の `codex` CLI と `~/.codex` の認証情報をそのまま使えます。
 
