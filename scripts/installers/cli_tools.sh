@@ -248,6 +248,10 @@ install_cli_tools() {
     install_opencode_user_service
   fi
 
+  if [[ "$INSTALL_HERMES_AGENT" == "true" ]]; then
+    "$REPO_ROOT/scripts/installers/hermes_agent.sh" install
+  fi
+
   if [[ "$INSTALL_TGCLI" == "true" ]]; then
     install_tgcli
   fi

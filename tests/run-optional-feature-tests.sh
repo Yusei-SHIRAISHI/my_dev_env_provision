@@ -133,6 +133,7 @@ main() {
     -e INSTALL_CLI_TOOLS=true \
     -e INSTALL_BITWARDEN_CLI=true \
     -e INSTALL_OPENCODE=true \
+    -e INSTALL_HERMES_AGENT=false \
     -e INSTALL_TGCLI=true \
     -e INSTALL_NGROK=true \
     -e INSTALL_STRIPE_CLI=true \

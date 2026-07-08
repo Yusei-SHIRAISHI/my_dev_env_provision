@@ -12,6 +12,10 @@ run_role_90_verify() {
     required_commands+=(gcloud)
   fi
 
+  if [[ "$INSTALL_HERMES_AGENT" == "true" ]]; then
+    required_commands+=(hermes)
+  fi
+
   for cmd in "${required_commands[@]}"; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
       warn "Missing command after bootstrap: $cmd"

@@ -47,6 +47,7 @@
 - `docker`
 - `chezmoi`
 - `opencode`
+- `hermes`
 - `tgcli`
 - `stripe`
 - `ngrok`
@@ -60,6 +61,7 @@
 - `syncthing`
 - `obsidian` (upstream の latest `AppImage`)
 - `bitwarden cli` (standalone install)
+- `hermes-agent` (official installer + local CLI)
 - `open-design` (Node 24 + pnpm + user systemd service)
 
 ## Notes
@@ -67,6 +69,7 @@
 - `mise` は language runtime 本体と CLI plugin の導入方針を分けて整理する
 - `obsidian` は package manager ではなく upstream の latest release asset で扱う
 - `bw` は standalone CLI binary を直接導入する
+- `hermes-agent` は upstream installer を使い、`~/.hermes/hermes-agent` と `~/.local/bin/hermes` を作成する。model / provider 設定は `hermes setup` で手動設定する
 - `gcloud` は Google 公式 archive を `~/.local/google-cloud-sdk` に展開し、認証は手動で行う
 - `ssh` は client だけでなく daemon も必要
 - `build-essential` は Ubuntu 側の表現で、Arch 側は `base-devel` で吸収する
