@@ -6,6 +6,9 @@ TEST_USER="${1:-tester}"
 DISTRO="${2:-ubuntu}"
 USER_HOME="/home/$TEST_USER"
 USER_PATH="$USER_HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+USER_ID="$(id -u "$TEST_USER")"
+USER_RUNTIME_DIR="/run/user/$USER_ID"
+USER_BUS_ADDRESS="unix:path=$USER_RUNTIME_DIR/bus"
 
 assert_command() {
   local command_name="$1"
@@ -37,8 +40,8 @@ assert_open_design_installed() {
   su - "$TEST_USER" -c "test -x '$USER_HOME/.local/share/open-design/run.sh'"
   su - "$TEST_USER" -c "grep -qx 'OPEN_DESIGN_WEB_BIND_HOST=0.0.0.0' '$USER_HOME/.local/share/open-design/.env'"
   su - "$TEST_USER" -c "grep -qx 'OPEN_DESIGN_ALLOWED_DEV_ORIGINS=http://devpc:7456,http://127.0.0.1:7456' '$USER_HOME/.local/share/open-design/.env'"
-  su - "$TEST_USER" -c "systemctl --user is-enabled open-design.service >/dev/null"
-  su - "$TEST_USER" -c "systemctl --user is-active open-design.service >/dev/null"
+  su - "$TEST_USER" -c "XDG_RUNTIME_DIR='$USER_RUNTIME_DIR' DBUS_SESSION_BUS_ADDRESS='$USER_BUS_ADDRESS' systemctl --user is-enabled open-design.service >/dev/null"
+  su - "$TEST_USER" -c "XDG_RUNTIME_DIR='$USER_RUNTIME_DIR' DBUS_SESSION_BUS_ADDRESS='$USER_BUS_ADDRESS' systemctl --user is-active open-design.service >/dev/null"
 }
 
 main() {

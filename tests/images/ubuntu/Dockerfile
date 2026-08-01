@@ -9,8 +9,10 @@ RUN apt-get update \
       ca-certificates \
       curl \
       dbus \
+      dbus-user-session \
       iproute2 \
       kmod \
+      libpam-systemd \
       procps \
       sudo \
       systemd \

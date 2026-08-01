@@ -3,6 +3,8 @@
 set -euo pipefail
 
 REPO_ROOT="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+# shellcheck source=lib/user-systemd-session.sh
+source "$REPO_ROOT/tests/lib/user-systemd-session.sh"
 TEST_USER="${TEST_USER:-tester}"
 DISTROS=("$@")
 DOCKER_CONFIG_DIR="${DOCKER_CONFIG_DIR:-}"
@@ -123,6 +125,16 @@ run_test() {
       "$container_name" \
       bash -lc "cd /repo && ./setup.sh --user '$TEST_USER'"
 
+    start_user_systemd_session "$container_name" "$TEST_USER"
+
+    docker exec \
+      -u "$TEST_USER" \
+      -e HOME="/home/$TEST_USER" \
+      -e XDG_RUNTIME_DIR="$USER_SYSTEMD_RUNTIME_DIR" \
+      -e DBUS_SESSION_BUS_ADDRESS="$USER_SYSTEMD_BUS_ADDRESS" \
+      "$container_name" \
+      bash -lc 'cd /repo && ./tests/verify-user-systemd-session.sh'
+
     docker exec \
       -u "$TEST_USER" \
       -e HOME="/home/$TEST_USER" \
@@ -132,6 +144,8 @@ run_test() {
     docker exec \
       -u "$TEST_USER" \
       -e HOME="/home/$TEST_USER" \
+      -e XDG_RUNTIME_DIR="$USER_SYSTEMD_RUNTIME_DIR" \
+      -e DBUS_SESSION_BUS_ADDRESS="$USER_SYSTEMD_BUS_ADDRESS" \
       -e DOTFILES_REPO="$fixture_repo" \
       -e MISE_GLOBAL_TOOLS="" \
       -e PACKAGE_SKIP_REFRESH=true \

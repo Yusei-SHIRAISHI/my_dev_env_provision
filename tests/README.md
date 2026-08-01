@@ -7,8 +7,9 @@
 1. systemd を含む test image を build する
 2. privileged container を起動する
 3. root で `./setup.sh --user tester` を実行する
-4. test user で `./install.sh` を実行する
-5. `docker` service と主要 command を verify する
+4. test user の systemd user manager を起動する
+5. test user で `./install.sh` を実行する
+6. `docker` service と主要 command を verify する
 
 ## Run
 
