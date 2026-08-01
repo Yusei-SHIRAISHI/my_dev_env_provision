@@ -135,7 +135,7 @@ main() {
     -e XDG_RUNTIME_DIR="$USER_SYSTEMD_RUNTIME_DIR" \
     -e DBUS_SESSION_BUS_ADDRESS="$USER_SYSTEMD_BUS_ADDRESS" \
     -e DOTFILES_REPO="$fixture_repo" \
-    -e MISE_GLOBAL_TOOLS="" \
+    -e MISE_GLOBAL_TOOLS=" " \
     -e PACKAGE_SKIP_REFRESH=true \
     -e INSTALL_SYSTEM_SERVICES=true \
     -e ENABLE_SSH_SERVICE=true \
@@ -161,7 +161,7 @@ main() {
     "$CONTAINER_NAME" \
     bash -lc 'cd /repo && ./install.sh'
 
-  docker exec "$CONTAINER_NAME" bash -lc "/repo/tests/verify-optional-features.sh '$TEST_USER' '$DISTRO'"
+  docker exec "$CONTAINER_NAME" bash /repo/tests/verify-optional-features.sh "$TEST_USER" "$DISTRO"
   cleanup_container "$CONTAINER_NAME"
   CONTAINER_NAME=""
   trap cleanup_docker_config EXIT

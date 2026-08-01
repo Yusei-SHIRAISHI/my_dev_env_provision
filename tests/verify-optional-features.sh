@@ -31,7 +31,7 @@ assert_user_executable() {
 assert_obsidian_installed() {
   assert_user_executable "$USER_HOME/.local/bin/obsidian"
   assert_user_executable "$USER_HOME/.local/lib/obsidian/Obsidian.AppImage"
-  su - "$TEST_USER" -c "PATH='$USER_PATH' obsidian --version >/dev/null"
+  su - "$TEST_USER" -c "'$USER_HOME/.local/lib/obsidian/Obsidian.AppImage' --appimage-version >/dev/null"
 }
 
 assert_open_design_installed() {

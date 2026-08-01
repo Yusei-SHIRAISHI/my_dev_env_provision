@@ -149,7 +149,7 @@ run_test() {
       -e DBUS_SESSION_BUS_ADDRESS="$USER_SYSTEMD_BUS_ADDRESS" \
       -e DOTFILES_REPO="$fixture_repo" \
       -e APPLY_CHEZMOI=true \
-      -e MISE_GLOBAL_TOOLS="" \
+      -e MISE_GLOBAL_TOOLS=" " \
       -e PACKAGE_SKIP_REFRESH=true \
       -e INSTALL_SYSTEM_SERVICES=true \
       -e ENABLE_SSH_SERVICE=true \
