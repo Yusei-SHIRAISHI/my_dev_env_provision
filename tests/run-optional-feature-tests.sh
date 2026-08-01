@@ -131,6 +131,7 @@ main() {
   docker exec \
     -u "$TEST_USER" \
     -e HOME="/home/$TEST_USER" \
+    -e INSTALL_CONFIG_FILE=/tmp/bootstrap-test-install.env \
     -e XDG_RUNTIME_DIR="$USER_SYSTEMD_RUNTIME_DIR" \
     -e DBUS_SESSION_BUS_ADDRESS="$USER_SYSTEMD_BUS_ADDRESS" \
     -e DOTFILES_REPO="$fixture_repo" \
